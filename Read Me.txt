@@ -4,8 +4,8 @@
 Steps on how to run the files on Postman
 
 1. Import both the files named 
- 	a. Global Connect - Environment.postman_environmet
-	b. Global Connect-).postman_collection
+ 	a. Global Kinetic - Environment.postman_environmet
+	b. Global Kinetic.postman_collection
 
 2. When Running the collection please attach the file named "city.list" as a Data file. (Note: The collection named "Read from JSON file" require a JSON file in order to execute.
 3. Please set the Iteration to "1".

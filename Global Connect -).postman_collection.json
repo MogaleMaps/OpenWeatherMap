@@ -1,0 +1,822 @@
+{
+	"info": {
+		"_postman_id": "941b29bb-b179-4a16-8b83-5f58a0367402",
+		"name": "Global Connect :)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetByCityName",
+			"item": [
+				{
+					"name": "Positve Tests",
+					"item": [
+						{
+							"name": "Get Weather By City Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 200 is return\", function () {\r",
+											"     pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('coord', 'weather', 'base','main','visibility','wind','clouds','dt','sys','timezone','id','name','cod');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?q={{$randomCountry}}&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "{{$randomCountry}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Tests",
+					"item": [
+						{
+							"name": "Get Weather By City Name -  Unauthorised",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 401 is returned (Unauthorised)\", function () {\r",
+											"     pm.response.to.have.status(401);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify response contecins Invalid API message\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid API key. Please see http://openweathermap.org/faq#error401 for more info.\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?q={{$randomCountry}}&appid=1A{{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "{{$randomCountry}}"
+										},
+										{
+											"key": "appid",
+											"value": "1A{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Weather By City Name -  None Existant Country",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 404 is returned (Not Found)\", function () {\r",
+											"     pm.response.to.have.status(404);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Invalid City Entered\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"city not found\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?q=ca{{$randomCountry}}&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "ca{{$randomCountry}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GetByCityID",
+			"item": [
+				{
+					"name": "Positive Tests",
+					"item": [
+						{
+							"name": "Get Weather By City ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 200 is returned\", function () {\r",
+											"     pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('coord', 'weather', 'base','main','visibility','wind','clouds','dt','sys','timezone','id','name','cod');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?id=2172797&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2172797"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Tests",
+					"item": [
+						{
+							"name": "Get Weather By City ID- Unauthorised",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 401 is returned (Unauthorised)\", function () {\r",
+											"     pm.response.to.have.status(401);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify response contecins Invalid API message\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid API key. Please see http://openweathermap.org/faq#error401 for more info.\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?id=2172797&appid=A{{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2172797"
+										},
+										{
+											"key": "appid",
+											"value": "A{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Weather By City ID-Invalid City ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 400 is returned \", function () {\r",
+											"     pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify response contecins Invalid API message\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"2172797A is not a city ID\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?id=2172797A&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2172797A"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GetByZipCode",
+			"item": [
+				{
+					"name": "Positive Tests",
+					"item": [
+						{
+							"name": "Get Weather By Zip Code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 200 is returned\", function () {\r",
+											"     pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('coord', 'weather', 'base','main','visibility','wind','clouds','dt','sys','timezone','id','name','cod');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?zip=94040,us&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "zip",
+											"value": "94040,us"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Tests",
+					"item": [
+						{
+							"name": "Get Weather By Zip Code - Unauthorised",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 401 is returned (Unauthorised)\", function () {\r",
+											"     pm.response.to.have.status(401);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify response contecins Invalid API message\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid API key. Please see http://openweathermap.org/faq#error401 for more info.\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?zip=94040,us&appid=A{{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "zip",
+											"value": "94040,us"
+										},
+										{
+											"key": "appid",
+											"value": "A{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Weather By Zip Code - InvalidCountryZip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 404 is returned\", function () {\r",
+											"     pm.response.to.have.status(404);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify city is not found\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"city not found\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?zip=9404x0,us&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "zip",
+											"value": "9404x0,us"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GetByGeoLocation",
+			"item": [
+				{
+					"name": "Positive Tests",
+					"item": [
+						{
+							"name": "Get Weather By Geographic Coordinates",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"random_number\", _.random(1, 70))\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify a status code 200 is returned\", function () {\r",
+											"     pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('coord', 'weather', 'base','main','visibility','wind','clouds','dt','sys','timezone','id','name','cod');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?lat={{random_number}}&lon={{random_number}}&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{random_number}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{random_number}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative Tests",
+					"item": [
+						{
+							"name": "Get Weather By Geographic Coordinates - Wrong Latitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 400 is returned\", function () {\r",
+											"     pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify wrong latitude was captured\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"wrong latitude\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?lat={{$randomInt}}&lon={{$randomInt}}&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{$randomInt}}"
+										},
+										{
+											"key": "lon",
+											"value": "{{$randomInt}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Weather By Geographic Coordinates - Wrong Longitude",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Verify a status code 400 is returned \", function () {\r",
+											"     pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Verify response time is less than 2000ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+											"});\r",
+											"pm.test(\"Verify response has correct keys returned\", function () {\r",
+											"    var data = pm.response.json();\r",
+											"    pm.expect(data).to.have.all.keys('cod', 'message');\r",
+											"});\r",
+											"pm.test(\"Verify incorrect longitude was captured\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"wrong longitude\");\r",
+											"});\r",
+											"pm.test(\"Verify schema response is a object\", () =>{\r",
+											"    let jsonData = pm.response.json();\r",
+											"         pm.expect(typeof(jsonData)).to.eql('object');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/2.5/weather?lat=35&lon={{$randomInt}}{{$randomInt}}{{$randomInt}}&appid={{appid}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"2.5",
+										"weather"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "35"
+										},
+										{
+											"key": "lon",
+											"value": "{{$randomInt}}{{$randomInt}}{{$randomInt}}"
+										},
+										{
+											"key": "appid",
+											"value": "{{appid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Read From JSON File",
+			"item": [
+				{
+					"name": "Read from Json File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body contains country\", function () {\r",
+									"    \r",
+									"    pm.expect(pm.response.text()).to.include(pm.iterationData.get(\"country\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.iterationData.get(\"id\"));\r",
+									"\r",
+									"console.log(\"ID is : \" + data[\"id\"]); \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/2.5/weather?id={{id}}&appid={{appid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"2.5",
+								"weather"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								},
+								{
+									"key": "appid",
+									"value": "{{appid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

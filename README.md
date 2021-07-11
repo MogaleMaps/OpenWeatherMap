@@ -7,8 +7,8 @@ functional API automation
 Steps on how to run the files on Postman
 
 1. Import both the files named 
- 	a. Global Connect - Environment.postman_environmet
-	b. Global Connect-).postman_collection
+ 	a. Global Kinetic - Environment.postman_environmet
+	b. Global Kinetic.postman_collection
 	c. Download 7zip from https://www.7-zip.org/download.html 
 	d. Once 7Zip is downloaded and installed , right click on a file named "city.list" and extract. 
 
